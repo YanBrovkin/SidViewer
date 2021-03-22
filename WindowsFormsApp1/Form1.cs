@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Windows.Forms;
@@ -19,7 +18,6 @@ namespace WindowsFormsApp1
             var securityIdentifier = new SecurityIdentifier(this.sourceSidText.Text);
             var bytes = new byte[securityIdentifier.BinaryLength];
             securityIdentifier.GetBinaryForm(bytes, 0);
-            //this.ResultText.Text = ConvertBytesToStringSid(bytes);
             this.ResultText.Text = ByteArrayToVarBinaryString(bytes);
         }
 
@@ -35,15 +33,6 @@ namespace WindowsFormsApp1
             this.sourceSidText.Clear();
             this.ResultText.Clear();
         }
-
-        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern bool ConvertSidToStringSid(IntPtr Sid,ref IntPtr StringSid);
-
-        [DllImport("advapi32", CharSet = CharSet.Auto, SetLastError = true)]
-        static extern bool ConvertSidToStringSid([MarshalAs(UnmanagedType.LPArray)] byte[] pSID, out IntPtr ptrSid);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr LocalFree(IntPtr hMem);
 
         private byte[] StringVarBinaryToByteArray(string varBinaryData)
         {
